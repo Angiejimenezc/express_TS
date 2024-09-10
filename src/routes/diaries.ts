@@ -1,5 +1,6 @@
 import express from 'express'; //EsModule syntax
 import * as diaryService from '../services/diaryServices';
+import toNewDiaryEntry from '../utils';
 
 const router = express.Router();
 
@@ -8,15 +9,17 @@ router.get('/', (_req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { date, weather, visibility, comment } = req.body
-  
-  const newDiaryEntry = diaryService.addDiary({
-    date, 
-    weather, 
-    visibility, 
-    comment})
-
-  res.json(newDiaryEntry);
+  try{
+    const newDiaryEntry = toNewDiaryEntry(req.body)      
+    const addedEntry = diaryService.addDiary(newDiaryEntry);
+    res.json(addedEntry);
+  } catch (e) {
+    if (e instanceof Error) {
+      res.status(400).send(e.message);
+    } else {
+      res.status(400).send('Unknown error');
+    }
+  }
 })
 
 router.get("/:id", (req, res) => {

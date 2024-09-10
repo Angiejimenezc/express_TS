@@ -1,4 +1,4 @@
-import { DiaryEntry, NonSensitiveInfoDiaryEntry, NewDiaryEntry} from '../type.d';
+import { DiaryEntry, NonSensitiveInfoDiaryEntry, NewDiaryEntry} from '../types';
 import diaryData from '../services/diaries.json'
 
 
